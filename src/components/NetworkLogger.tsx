@@ -115,6 +115,7 @@ const NetworkLogger: React.FC<Props> = ({
   return (
     <ThemeContext.Provider value={theme}>
       <View style={styles.visible}>
+        <Text style={styles.vwLabel}>{'╰‿╯нəllo✿dəвυg亗'}</Text>
         {showDetails && !!request && (
           <View style={styles.visible}>
             <RequestDetails
@@ -130,7 +131,7 @@ const NetworkLogger: React.FC<Props> = ({
             <>
               {paused && (
                 <View style={styles.pausedBanner}>
-                  <Text>Paused</Text>
+                  <Text>{'♰P̆ĂŬS̆ĔD̆ ♰'}</Text>
                 </View>
               )}
               <RequestList
@@ -160,9 +161,16 @@ const styles = StyleSheet.create({
     flex: 0,
   },
   pausedBanner: {
-    backgroundColor: '#ff7c7c',
+    backgroundColor: '#fdba74',
     padding: 10,
     alignItems: 'center',
+  },
+  vwLabel: {
+    fontSize: 30,
+    color: '#facc15',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginVertical: 16,
   },
 });
 

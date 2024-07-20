@@ -23,14 +23,19 @@ interface Props {
 const Headers = ({
   title = 'Headers',
   headers,
+  onPress,
 }: {
   title: string;
   headers?: Object;
+  onPress?: () => void;
 }) => {
   const styles = useThemedStyles(themedStyles);
   return (
     <View>
-      <Header shareContent={headers && JSON.stringify(headers, null, 2)}>
+      <Header
+        onPressArrow={onPress}
+        shareContent={headers && JSON.stringify(headers, null, 2)}
+      >
         {title}
       </Header>
       <View style={styles.content}>
@@ -80,6 +85,12 @@ const LargeText: React.FC<{ children: string }> = ({ children }) => {
 const RequestDetails: React.FC<Props> = ({ request, onClose }) => {
   const [responseBody, setResponseBody] = useState('Loading...');
   const styles = useThemedStyles(themedStyles);
+  const [objNetwork, setObjNetwork] = useState({
+    isShowReqHeader: false,
+    isShowReqBody: false,
+    isShowRepHeader: false,
+    isShowRepBody: true,
+  });
 
   useEffect(() => {
     (async () => {
@@ -110,30 +121,74 @@ const RequestDetails: React.FC<Props> = ({ request, onClose }) => {
   return (
     <View style={styles.container}>
       <ResultItem request={request} style={styles.info} />
-      <ScrollView style={styles.scrollView} nestedScrollEnabled>
-        <Headers title="Request Headers" headers={request.requestHeaders} />
-        <Header shareContent={requestBody}>Request Body</Header>
-        <LargeText>{requestBody}</LargeText>
-        <Headers title="Response Headers" headers={request.responseHeaders} />
-        <Header shareContent={responseBody}>Response Body</Header>
-        <LargeText>{responseBody}</LargeText>
+      <ScrollView style={styles.scrollView} nestedScrollEnabled bounces={false}>
+        <Headers
+          title="Request Headers"
+          headers={
+            objNetwork?.isShowReqHeader ? request.requestHeaders : undefined
+          }
+          onPress={() => {
+            setObjNetwork((pre) => ({
+              ...pre,
+              isShowReqHeader: !pre.isShowReqHeader,
+            }));
+          }}
+        />
+        <Header
+          shareContent={requestBody}
+          onPressArrow={() => {
+            setObjNetwork((pre) => ({
+              ...pre,
+              isShowReqBody: !pre.isShowReqBody,
+            }));
+          }}
+        >
+          Request Body
+        </Header>
+        <LargeText>{objNetwork?.isShowReqBody ? requestBody : ''}</LargeText>
+        <Headers
+          title="Response Headers"
+          headers={
+            objNetwork?.isShowRepHeader ? request.responseHeaders : undefined
+          }
+          onPress={() => {
+            setObjNetwork((pre) => ({
+              ...pre,
+              isShowRepHeader: !pre.isShowRepHeader,
+            }));
+          }}
+        />
+        <Header
+          shareContent={responseBody}
+          onPressArrow={() => {
+            setObjNetwork((pre) => ({
+              ...pre,
+              isShowRepBody: !pre.isShowRepBody,
+            }));
+          }}
+        >
+          Response Body
+        </Header>
+        <LargeText>{objNetwork?.isShowRepBody ? responseBody : ''}</LargeText>
         <Header>More</Header>
-        <Button
-          onPress={() => Share.share({ message: getFullRequest() })}
-          fullWidth
-        >
-          Share full request
-        </Button>
-        <Button
-          onPress={() => Share.share({ message: request.curlRequest })}
-          fullWidth
-        >
-          Share as cURL
-        </Button>
+        <View style={styles.vwFooter}>
+          <Button
+            onPress={() => Share.share({ message: getFullRequest() })}
+            // fullWidth
+          >
+            {'𝙁𝙪𝙡𝙡♡𝙍𝙚𝙦☯'}
+          </Button>
+          <Button
+            onPress={() => Share.share({ message: request.curlRequest })}
+            // fullWidth
+          >
+            {'☂CມR꒒☆'}
+          </Button>
+        </View>
       </ScrollView>
       {!backHandlerSet() && (
         <Button onPress={onClose} style={styles.close}>
-          Close
+          {'☂🄲ʆọśe̥ͦ亗'}
         </Button>
       )}
     </View>
@@ -174,6 +229,13 @@ const themedStyles = (theme: Theme) =>
     },
     largeContent: {
       maxHeight: 300,
+    },
+    vwFooter: {
+      flexDirection: 'row',
+      flex: 1,
+      justifyContent: 'space-around',
+      marginHorizontal: 16,
+      alignItems: 'center',
     },
   });
 

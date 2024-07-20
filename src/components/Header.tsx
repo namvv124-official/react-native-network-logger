@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,10 +12,12 @@ import { useThemedStyles, Theme } from '../theme';
 interface Props {
   children: string;
   shareContent?: string;
+  onPressArrow?: () => void;
 }
 
-const Header: React.FC<Props> = ({ children, shareContent }) => {
+const Header: React.FC<Props> = ({ children, shareContent, onPressArrow }) => {
   const styles = useThemedStyles(themedStyles);
+
   return (
     <View style={styles.container}>
       <Text
@@ -42,6 +44,22 @@ const Header: React.FC<Props> = ({ children, shareContent }) => {
           />
         </TouchableOpacity>
       )}
+
+      {!!onPressArrow && (
+        <TouchableOpacity
+          testID="header-arrow"
+          accessibilityLabel="Extend"
+          accessibilityRole="button"
+          onPress={onPressArrow}
+          activeOpacity={0.8}
+        >
+          <Image
+            source={require('./images/arrow_down.png')}
+            resizeMode="contain"
+            style={styles.shareIcon}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -49,6 +67,7 @@ const Header: React.FC<Props> = ({ children, shareContent }) => {
 const themedStyles = (theme: Theme) =>
   StyleSheet.create({
     header: {
+      flex: 1,
       fontWeight: 'bold',
       fontSize: 20,
       marginTop: 10,
@@ -63,7 +82,7 @@ const themedStyles = (theme: Theme) =>
       tintColor: theme.colors.text,
     },
     container: {
-      justifyContent: 'space-between',
+      // justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
     },

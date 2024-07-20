@@ -45,7 +45,7 @@ const Options: React.FC<Props> = ({ options }) => {
             <View style={styles.backdrop} />
           </TouchableWithoutFeedback>
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Options</Text>
+            <Text style={styles.title}>{'♰ŎP̆T̆ĬŎN̆S̆ ♰'}</Text>
             {options.map(({ text, onPress }) => (
               <Button
                 key={text}
@@ -77,7 +77,7 @@ const themedStyles = (theme: Theme) =>
       borderRadius: 8,
       padding: 16,
       maxWidth: '100%',
-      backgroundColor: 'white',
+      backgroundColor: '#fdba74',
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
@@ -96,7 +96,7 @@ const themedStyles = (theme: Theme) =>
     },
     menu: { alignSelf: 'center' },
     title: {
-      fontSize: 20,
+      fontSize: 26,
       paddingBottom: 10,
       fontWeight: 'bold',
       textAlign: 'center',
